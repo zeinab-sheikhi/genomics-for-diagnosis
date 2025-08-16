@@ -2,10 +2,15 @@ configfile: "config/config.yaml"
 
 include: "rules/reference.smk"
 include: "rules/qc.smk"
-include: "rules/alignment.smk"
-include: "rules/svcalling.smk"
-include: "rules/export.smk"
+# include: "rules/alignment.smk"
+# include: "rules/svcalling.smk"
+# include: "rules/export.smk"
 
 rule all:
     input: 
-        config["reference"]["fa"] + ".bwt"
+        # Reference indexing
+        config["reference"]["fa"] + ".bwt",
+
+        # QC
+        "results/qc/HG002_R1_wgs_chr21_fastqc.html",
+        "results/qc/HG002_R2_wgs_chr21_fastqc.html"

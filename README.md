@@ -6,3 +6,6 @@ Output:
 .pac - Provides the actual reference sequence
 .ann - Tells BWA chromosome names and lengths
 .amb - Handles ambiguous bases (N's) properly
+
+QC observation: "Unusual GC content detected in R1"
+Hypothesis: "May indicate structural variants affecting GC distribution"
