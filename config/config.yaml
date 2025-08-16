@@ -7,11 +7,15 @@ fastq:
 reference:
   fa: "ref/chr21.fa"
 
-# Tool parameters
-
+# Resource configuration
+threads:
+  bwa_align: 4
+  sort_bam: 4
+  index_bam: 1
 
 # Output directories
 results_dir: "results"
+logs_dir: "logs"
 
 # Final output specification
 final_output:
