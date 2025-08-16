@@ -5,11 +5,9 @@ setup-envs:
 	@setup_envs.sh
 
 dry-run:
-	@echo "Running dry run..."
 	@snakemake --dryrun 
 
 run:
-	@echo "Running pipeline..."
 	@snakemake --use-conda --cores 4
 
 help:
