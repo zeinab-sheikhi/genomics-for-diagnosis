@@ -1,0 +1,11 @@
+configfile: "config/config.yaml"
+
+include: "rules/reference.smk"
+include: "rules/qc.smk"
+include: "rules/alignment.smk"
+include: "rules/svcalling.smk"
+include: "rules/export.smk"
+
+rule all:
+    input: 
+        config["reference"]["fa"] + ".bwt"

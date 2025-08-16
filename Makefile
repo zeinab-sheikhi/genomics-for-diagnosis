@@ -2,8 +2,17 @@
 
 setup-envs:
 	@echo "Setting up environments..."
-	@workflow/scripts/setup_envs.sh
+	@setup_envs.sh
+
+dry-run:
+	@echo "Running dry run..."
+	@snakemake --dryrun 
+
+run:
+	@echo "Running pipeline..."
+	@snakemake --use-conda --cores 4
 
 help:
 	@echo "setup-envs - Create all conda environments"
+	@echo "dry-run    - Run the pipeline with dry run"
 	@echo "run        - Run the genomic pipeline for diagnosis"
