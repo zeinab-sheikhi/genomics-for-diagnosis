@@ -1,9 +1,17 @@
 #!/bin/bash
 # setup_envs.sh
+
 echo "Creating genomics environments..."
-conda env create -f workflow/envs/qc.yaml
-conda env create -f workflow/envs/alignment.yaml  
-conda env create -f workflow/envs/svcalling.yaml
-conda env create -f workflow/envs/annotation.yaml
-conda env create -f workflow/envs/processing.yaml
+
+envs=("qc" "alignment" "svcalling" "annotation" "processing")
+
+for env in "${envs[@]}"; do
+    if conda env list | grep -q "^${env} "; then
+        echo "Environment '$env' already exists - skipping"
+    else
+        echo "Creating environment: $env"
+        conda env create -f "workflow/envs/${env}.yaml"
+    fi
+done
+
 echo "All environments ready!"
