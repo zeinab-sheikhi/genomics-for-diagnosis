@@ -1,4 +1,4 @@
-sample: "chr21"
+sample: "HG002"
 
 fastq:
   r1: "data/HG002_R1_wgs_chr21.fastq.gz"
@@ -21,8 +21,7 @@ delly:
   sv_types: ["DEL", "DUP", "INV", "INS", "TRA"]
 
 # Output directories
-results_dir: "results"
-logs_dir: "logs"
+results_dir: "workflow/results"
 
 # Final output specification
 final_output:

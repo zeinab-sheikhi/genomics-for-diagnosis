@@ -1,17 +1,13 @@
 rule bwa_index:
-    input: config["reference"]["fa"]
+    input: REF
     output:
-        config["reference"]["fa"] + ".bwt",
-        config["reference"]["fa"] + ".sa",
-        config["reference"]["fa"] + ".pac",
-        config["reference"]["fa"] + ".ann",
-        config["reference"]["fa"] + ".amb"
-    conda: "../envs/alignment.yaml"
-    shell:  "bwa index {input}"
+        expand("{fa}.{ext}", fa=REF, ext=["bwt", "sa", "pac", "ann", "amb"])
+    conda: ENV("alignment.yaml")
+    shell:  "bwa index {input:q}"
 
 rule samtools_faidx:
-    input: config["reference"]["fa"]
-    output: config["reference"]["fa"] + ".fai"
-    conda: "../envs/alignment.yaml"
-    log: "logs/samtools_faidx.log"
-    shell: "samtools faidx {input} 2> {log}"
+    input: REF
+    output: f"{REF}.fai"
+    conda: ENV("alignment.yaml")
+    log: f"{LOGS}/samtools_faidx.log"
+    shell: "samtools faidx {input:q} 2> {log}"

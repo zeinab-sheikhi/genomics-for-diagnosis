@@ -1,9 +1,7 @@
 rule fastqc:
-    input: 
-        r1=config["fastq"]["r1"], 
-        r2=config["fastq"]["r2"]
+    input: r1=r1, r2=r2
     output:
-        "workflow/results/qc/HG002_R1_wgs_chr21_fastqc.html",    
-        "workflow/results/qc/HG002_R2_wgs_chr21_fastqc.html"
-    conda: "../envs/qc.yaml"
-    shell: "fastqc {input.r1} {input.r2} -o workflow/results/qc/"
+        R1_html = f"{RESULTS}/qc/{{sample}}_R1_wgs_chr21_fastqc.html",
+        R2_html = f"{RESULTS}/qc/{{sample}}_R2_wgs_chr21_fastqc.html"
+    conda: ENV("qc.yaml")
+    shell: "fastqc {input.r1:q} {input.r2:q} -o {RESULTS}/qc/"

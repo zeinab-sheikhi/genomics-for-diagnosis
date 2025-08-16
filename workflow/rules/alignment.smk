@@ -1,31 +1,31 @@
 rule bwa_align:
     input:
-        r1=config["fastq"]["r1"],
-        r2=config["fastq"]["r2"],
-        ref=config["reference"]["fa"],
-        bwt=config["reference"]["fa"] + ".bwt"
+        r1=r1,
+        r2=r2,
+        ref=REF,
+        bwt=f"{REF}.bwt"
     output:
-        temp("workflow/results/alignment/HG002_raw.bam")
-    conda: "../envs/alignment.yaml"
+        temp(f"{RESULTS}/alignment/{{sample}}_raw.bam")
+    conda: ENV("alignment.yaml")
     threads: config["threads"]["bwa_align"]
-    log: "logs/alignment/bwa_align.log"
+    log: f"{LOGS}/alignment/{{sample}}_bwa_align.log"
     shell: """
-        bwa mem -t {threads} {input.ref} {input.r1} {input.r2} 2> {log} | \
-        samtools view -b -o {output} - 2>> {log}
+        bwa mem -t {threads} {input.ref:q} {input.r1:q} {input.r2:q} 2> {log} | \
+        samtools view -b -o {output:q} - 2>> {log}
     """
 
 rule sort_bam:
-    input: "workflow/results/alignment/HG002_raw.bam"
-    output: "workflow/results/alignment/HG002_sorted.bam"
-    conda: "../envs/alignment.yaml"
+    input: f"{RESULTS}/alignment/{{sample}}_raw.bam"
+    output: f"{RESULTS}/alignment/{{sample}}_sorted.bam"
+    conda: ENV("alignment.yaml")
     threads: config["threads"]["sort_bam"]
-    log: "logs/alignment/sort_bam.log"
-    shell: "samtools sort -@ {threads} -o {output} {input} 2> {log}"
+    log: f"{LOGS}/alignment/{{sample}}_sort_bam.log"
+    shell: "samtools sort -@ {threads} -o {output:q} {input:q} 2> {log}"
 
 rule index_bam:
-    input: "workflow/results/alignment/HG002_sorted.bam"
-    output: "workflow/results/alignment/HG002_sorted.bam.bai"
-    conda: "../envs/alignment.yaml"
+    input: f"{RESULTS}/alignment/{{sample}}_sorted.bam"
+    output: f"{RESULTS}/alignment/{{sample}}_sorted.bam.bai"
+    conda: ENV("alignment.yaml")
     threads: config["threads"]["index_bam"]
-    log: "logs/alignment/index_bam.log"
-    shell: "samtools index {input} {output} 2> {log}"
+    log: f"{LOGS}/alignment/{{sample}}_index_bam.log"
+    shell: "samtools index {input:q} {output:q} 2> {log}"
