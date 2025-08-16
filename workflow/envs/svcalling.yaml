@@ -1,0 +1,8 @@
+name: svcalling
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - manta
+  - tabix
+  - bcftools

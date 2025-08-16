@@ -1,0 +1,10 @@
+name: annotation
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - annotsv
+  - bedtools
+  - python=3.11
+  - pandas
+  - pysam

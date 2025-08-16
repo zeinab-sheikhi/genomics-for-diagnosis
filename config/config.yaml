@@ -1,0 +1,10 @@
+sample: "chr21"
+
+fastq:
+  r1: "data/HG002_R1_wgs_chr21.fastq.gz"
+  r2: "data/HG002_R2_wgs_chr21.fastq.gz"
+
+reference:
+  fa: "ref/chr21.fa"
+
+results_dir: "results"
