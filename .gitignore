@@ -1,7 +1,6 @@
 .DS_Store
 .snakemake/
-data/
-ref/
+*.gz
 logs/
 workflow/results/alignment/
 workflow/results/variants/

@@ -2,7 +2,8 @@
 
 setup-envs:
 	@echo "Setting up environments..."
-	@setup_envs.sh
+	@chmod +x install.sh
+	@./install.sh
 
 dry-run:
 	@snakemake --dryrun 

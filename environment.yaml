@@ -6,4 +6,5 @@ dependencies:
   - tabulate
   - pip
   - pip:
-      - yatiml
+      - pydantic
+      - pyyaml

@@ -1,29 +1,57 @@
 sample: "HG002"
 
-fastq:
-  r1: "data/HG002_R1_wgs_chr21.fastq.gz"
-  r2: "data/HG002_R2_wgs_chr21.fastq.gz"
-
 reference:
-  fa: "ref/chr21.fa"
+  fa: "workflow/data/fasta/chr21.fasta"
 
-# Resource configuration
-threads:
-  bwa_align: 4
-  sort_bam: 4
-  index_bam: 1
-  delly_call: 1
+fastq:
+  r1: "workflow/data/HG002_R1_wgs_chr21.fastq.gz"
+  r2: "workflow/data/HG002_R2_wgs_chr21.fastq.gz"
 
-# Tool parameters
-delly:
-  min_sv_size: 50
-  max_sv_size: 1000000
-  sv_types: ["DEL", "DUP", "INV", "INS", "TRA"]
+file_exts:
+  fasta: .fasta
+  fasta_idx:
+    - .fasta.fai  
+    - .fasta.bwt  
+    - .fasta.amb  
+    - .fasta.ann  
+    - .fasta.pac  
+    - .fasta.sa   
+  bam: .bam
+  bam_idx: .bam.bai
+  vcf: .vcf
+  bcf: .bcf
+ 
 
-# Output directories
-results_dir: "workflow/results"
+# Tool-specific configurations
+tools:
+  bwa:
+    threads: 4
+    memory: 4096
+    outdir: workflow/results/alignment
 
-# Final output specification
+  samtools:
+    threads: 4
+    memory: 2048
+    outdir: workflow/results/alignment
+
+  fastqc:
+    threads: 1
+    memory: 1024
+    outdir: workflow/results/qc
+
+  delly:
+    threads: 2
+    memory: 8192
+    outdir: workflow/results/delly
+    sv_types:
+          - BND  # translocation
+          - DEL  # deletion
+          - DUP  # duplication
+          - INS  # insertion
+          - INV  # inversion
+
+# Final output configuration
 final_output:
-  filename: "sv_calls.csv"
-  columns: ["CHROM", "START", "END", "SIZE", "QUAL", "FILTER"]
+  filename: "structural_variants.csv"
+  columns: ["CHROM", "START", "END", "SIZE", "QUAL", "FILTER", "SVTYPE"]
+  results_dir: "workflow/reports/"

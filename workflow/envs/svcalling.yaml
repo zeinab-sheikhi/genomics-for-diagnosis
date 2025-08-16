@@ -3,6 +3,6 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - delly  # compatible with M2 chips instead of manta
+  - delly
   - tabix
   - bcftools
