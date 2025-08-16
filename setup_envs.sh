@@ -3,7 +3,7 @@
 
 echo "Creating genomics environments..."
 
-envs=("qc" "alignment" "svcalling" "annotation" "processing")
+envs=("qc" "alignment" "svcalling")
 
 for env in "${envs[@]}"; do
     if conda env list | grep -q "^${env} "; then

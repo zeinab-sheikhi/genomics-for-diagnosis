@@ -4,7 +4,6 @@ include: "rules/reference.smk"
 include: "rules/qc.smk"
 include: "rules/alignment.smk"
 include: "rules/svcalling.smk"
-# include: "rules/export.smk"
 
 rule all:
     input: 
@@ -19,6 +18,5 @@ rule all:
         "workflow/results/alignment/HG002_sorted.bam",
         "workflow/results/alignment/HG002_sorted.bam.bai",
 
-        # SV Calling 
-        "workflow/results/variants/HG002_svs.vcf.gz",
-        "workflow/results/variants/HG002_svs.vcf.gz.tbi"
+        # Export 
+        "workflow/results/sv_calls.csv"
