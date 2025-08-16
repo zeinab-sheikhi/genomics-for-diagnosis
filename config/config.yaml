@@ -7,4 +7,13 @@ fastq:
 reference:
   fa: "ref/chr21.fa"
 
+# Tool parameters
+
+
+# Output directories
 results_dir: "results"
+
+# Final output specification
+final_output:
+  filename: "sv_calls.csv"
+  columns: ["CHROM", "START", "END", "SIZE", "QUAL", "FILTER"]
