@@ -150,65 +150,7 @@ This pipeline addresses a clinical genomics scenario where:
 
 ## Workflow Diagram
 
-```
-┌─────────────────┐    ┌─────────────────┐
-│  FASTQ Files    │    │ Reference       │
-│  (R1, R2)       │    │ Genome (FASTA)  │
-└─────────┬───────┘    └─────────┬───────┘
-          │                      │
-          ▼                      ▼
-┌─────────────────┐    ┌─────────────────┐
-│   FastQC        │    │  BWA Index      │
-│ (Quality Check) │    │ + SAMtools faidx│
-└─────────────────┘    └─────────┬───────┘
-          │                      │
-          │                      │
-          │            ┌─────────▼───────┐
-          │            │   BWA-MEM       │
-          │            │  (Alignment)    │
-          │            └─────────┬───────┘
-          │                      │
-          │            ┌─────────▼───────┐
-          │            │  SAMtools       │
-          │            │ (Sort + Index)  │
-          │            └─────────┬───────┘
-          │                      │
-          │            ┌─────────▼───────┐
-          │            │     DELLY       │
-          │            │  (SV Calling)   │
-          │            └─────────┬───────┘
-          │                      │
-          │            ┌─────────▼───────┐
-          │            │   BCFtools      │
-          │            │ (Convert + Index)│
-          │            └─────────┬───────┘
-          │                      │
-          └──────────────────────▼
-                   ┌─────────────────┐
-                   │  VCF to CSV     │
-                   │   Converter     │
-                   └─────────┬───────┘
-                             │
-                             ▼
-                   ┌─────────────────┐
-                   │ Final CSV File  │
-                   │ CHROM,START,END │
-                   │ SIZE,QUAL,FILTER│
-                   │ SVTYPE          │
-                   └─────────────────┘
-```
-
-```
-all
-├── Reference Index (bwa_index, samtools_faidx)
-├── Quality Control (fastqc)
-├── Alignment Pipeline
-│   ├── bwa_align → sort_bam → index_bam
-│   └── (depends on: bwa_index, fastqc)
-└── SV Calling Pipeline
-    ├── delly_call → bcf_to_vcf → vcf_to_csv
-    └── (depends on: sorted BAM, reference index)
-```
+![Genomics Pipeline DAG](workflow/results/dag.png)
 
 ## Output
 
