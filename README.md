@@ -4,7 +4,6 @@ A Snakemake-based workflow for processing whole genome sequencing data to identi
 
 ## Table of Contents
 
-- [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Project Structure](#project-structure)
 - [Usage](#usage)
@@ -12,11 +11,6 @@ A Snakemake-based workflow for processing whole genome sequencing data to identi
 - [Workflow Diagram](#workflow-diagram)
 - [Output](#output)
 
-## Prerequisites
-
-- **Operating System**: macOS (tested on M2), Linux
-- **Hardware**: Minimum 8GB RAM, 10GB free disk space
-- **Internet connection** for downloading conda packages
 
 ## Installation
 
@@ -83,8 +77,6 @@ genomics-for-diagnosis/
 │   │   ├── qc.yaml
 │   │   ├── alignment.yaml
 │   │   ├── svcalling.yaml
-│   │   ├── annotation.yaml
-│   │   └── processing.yaml
 │   ├── rules/                  # Modular workflow rules
 │   │   ├── reference.smk       # Reference genome indexing
 │   │   ├── qc.smk              # Quality control
@@ -126,22 +118,6 @@ make run
 
 # Show available commands
 make help
-```
-
-### Advanced Usage
-
-```bash
-# Run specific rules only
-snakemake --use-conda --cores 4 results/qc/multiqc_report.html
-
-# Force re-run specific steps
-snakemake --use-conda --cores 4 --forcerun bwa_align
-
-# Run with different thread count
-snakemake --use-conda --cores 12
-
-# Generate workflow report
-snakemake --report report.html
 ```
 
 ## Pipeline Overview
@@ -221,7 +197,7 @@ This pipeline addresses a clinical genomics scenario where:
                    │ SVTYPE          │
                    └─────────────────┘
 ```
-<code_block_to_apply_changes_from>
+
 ```
 all
 ├── Reference Index (bwa_index, samtools_faidx)
