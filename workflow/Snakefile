@@ -19,4 +19,4 @@ rule all:
         "workflow/results/alignment/HG002_sorted.bam.bai",
 
         # Export 
-        "workflow/results/sv_calls.csv"
+        "workflow/results/structural_variants.csv"

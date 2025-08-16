@@ -32,7 +32,7 @@ rule vcf_to_csv:
     input: 
         vcf="workflow/results/variants/HG002_svs.vcf.gz",
         tbi="workflow/results/variants/HG002_svs.vcf.gz.tbi"
-    output: "workflow/results/sv_calls.csv"
+    output: "workflow/results/structural_variants.csv"
     conda: "../envs/svcalling.yaml"
     log: "logs/vcf_to_csv.log"
     shell: "bash workflow/scripts/vcf_to_csv.sh {input.vcf} {output} {log}"

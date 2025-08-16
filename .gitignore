@@ -3,7 +3,6 @@
 data/
 ref/
 logs/
-workflow/results/qc/
 workflow/results/alignment/
 workflow/results/variants/
 

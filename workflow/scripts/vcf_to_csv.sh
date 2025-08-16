@@ -78,9 +78,15 @@ BEGIN {
     } else {
         filter = filter_field
     }
+
+    if (svtype == "." || svtype == "") {
+        svtype  "UNK" 
+    } else {
+        svtype = svtype
+    }
     
     # Output CSV row
-    print chrom, start, end, size, qual, filter
+    print chrom, start, end, size, qual, filter, svtype
 }
 END {
     print "Processed " count " variants" >> log_file
