@@ -12,5 +12,5 @@ rule all:
         config["reference"]["fa"] + ".bwt",
 
         # QC
-        "results/qc/HG002_R1_wgs_chr21_fastqc.html",
-        "results/qc/HG002_R2_wgs_chr21_fastqc.html"
+        "workflow/results/qc/HG002_R1_wgs_chr21_fastqc.html",
+        "workflow/results/qc/HG002_R2_wgs_chr21_fastqc.html"
