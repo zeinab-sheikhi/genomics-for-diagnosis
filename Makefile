@@ -6,19 +6,19 @@ setup-envs:
 	@./install.sh
 
 dry-run:
-	@snakemake --dryrun 
+	@snakemake -s workflow/Snakefile --dryrun
 
 run:
-	@snakemake --use-conda --cores 4
+	@snakemake -s workflow/Snakefile --use-conda --cores 4
 
 generate-dag-graph:
-	@snakemake --dag | dot -Tpng > workflow/reports/dag.png
+	@snakemake -s workflow/Snakefile --dag | dot -Tpng > workflow/reports/dag.png
 
 generate-rule-graph:
-	@snakemake --rulegraph | dot -Tpng > workflow/reports/rulegraph.png
+	@snakemake -s workflow/Snakefile --rulegraph | dot -Tpng > workflow/reports/rulegraph.png
 
 generate-report:
-	@snakemake --report workflow/reports/report.html
+	@snakemake -s workflow/Snakefile --report workflow/reports/report.html
 
 help:
 	@echo "setup-envs - Create all conda environments"
