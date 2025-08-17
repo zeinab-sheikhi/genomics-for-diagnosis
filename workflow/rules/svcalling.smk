@@ -41,3 +41,9 @@ rule sv_gene_annotation:
     output: get_variant_outputs()["annotated"]
     conda: get_env("wgs.yaml")
     shell: "bash workflow/scripts/annotate.sh {input.sv_bed:q} {input.genes_bed:q} {output:q}"
+
+rule sv_csv:
+    input: get_variant_outputs()["annotated"]
+    output: get_variant_outputs()["csv"]
+    conda: get_env("wgs.yaml")
+    shell: "python workflow/scripts/bed2csv.py {input:q} {output:q}"

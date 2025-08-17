@@ -17,3 +17,4 @@ dependencies:
 
   # Annotation tools
   - bedtools
+  - pandas
