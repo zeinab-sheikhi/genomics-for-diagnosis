@@ -93,9 +93,3 @@ The genomics pipeline consists of 5 main stages:
    - **`delly_call`**: Detects structural variants (deletions, duplications, inversions, translocations, insertions) using DELLY
    - **`bcf_to_vcf`**: Converts BCF format to compressed VCF with index
    - **`vcf_to_csv`**: Extracts key variant information into CSV format for clinical reporting
-
-5. **Analysis & Visualization** (`sv_analysis.smk`)
-   - **`sv_analysis`**: Generates comprehensive plots and statistics:
-     - Genome-wide overview of structural variants
-     - Size distribution analysis
-     - Quality score analysis
