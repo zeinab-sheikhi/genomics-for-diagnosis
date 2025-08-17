@@ -10,6 +10,6 @@ rule samtools_faidx:
     input: 
         get_fasta()
     output:
-        get_fasta_fai()
+        get_fasta_idx()
     conda: get_env("wgs.yaml")
     shell: "samtools faidx {input:q}"

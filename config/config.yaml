@@ -27,17 +27,17 @@ tools:
   bwa:
     threads: 4
     memory: 4096
-    outdir: workflow/results/alignment
+    outdir: workflow/data/fasta
 
   samtools:
     threads: 4
     memory: 2048
-    outdir: workflow/results/alignment
+    outdir: workflow/data/fasta
 
   fastqc:
     threads: 1
     memory: 1024
-    outdir: workflow/results/qc
+    outdir: workflow/reports
 
   delly:
     threads: 2

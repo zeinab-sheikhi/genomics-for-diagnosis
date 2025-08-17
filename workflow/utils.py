@@ -52,7 +52,7 @@ def get_bwa_idx(check_exists: bool = False) -> list[str]:
     return index_files
 
 
-def get_fasta_fai(check_exists: bool = False) -> str:
+def get_fasta_idx(check_exists: bool = False) -> str:
     """Get samtools faidx output file path (.fai).
     
     Args:
@@ -71,12 +71,64 @@ def get_fasta_fai(check_exists: bool = False) -> str:
     return fai_file
 
 
+def get_fastq_r1(check_exists: bool = True) -> str:
+    """Get R1 FASTQ file path with validation."""
+    r1_path = Path(config.fastq.r1)
+    
+    if check_exists:
+        if not r1_path.exists():
+            raise FileNotFoundError(f"R1 FASTQ file not found: {r1_path}")
+        
+        if not str(r1_path).endswith(('.fastq', '.fastq.gz', '.fq', '.fq.gz')):
+            raise ValueError(f"Invalid R1 FASTQ file extension: {r1_path.suffix}")
+        
+        if r1_path.stat().st_size == 0:
+            raise ValueError(f"R1 FASTQ file is empty: {r1_path}")
+    
+    return str(r1_path)
+
+
+def get_fastq_r2(check_exists: bool = True) -> str:
+    """Get R2 FASTQ file path with validation."""
+    r2_path = Path(config.fastq.r2)
+    
+    if check_exists:
+        if not r2_path.exists():
+            raise FileNotFoundError(f"R2 FASTQ file not found: {r2_path}")
+        
+        if not str(r2_path).endswith(('.fastq', '.fastq.gz', '.fq', '.fq.gz')):
+            raise ValueError(f"Invalid R2 FASTQ file extension: {r2_path.suffix}")
+        
+        if r2_path.stat().st_size == 0:
+            raise ValueError(f"R2 FASTQ file is empty: {r2_path}")
+    
+    return str(r2_path)
+
+
+def get_qc_outputs(sample: str | None = None) -> dict:
+    """Get FastQC output file paths."""
+    if sample is None:
+        sample = config.sample
+    
+    qc_outdir = config.tools.fastqc.outdir
+    
+    return {
+        "r1_html": f"{qc_outdir}/{sample}_R1_wgs_chr21_fastqc.html",
+        "r2_html": f"{qc_outdir}/{sample}_R2_wgs_chr21_fastqc.html",
+    }
+
+
 def make_all_outputs() -> list[str]:
     """Make all output paths for the workflow."""
     outfiles = []
     sample = config.sample
 
+    # Reference files
     outfiles.extend(get_bwa_idx(check_exists=False))  # BWA index files
-    outfiles.append(get_fasta_fai(check_exists=False))  # FASTA index
+    outfiles.append(get_fasta_idx(check_exists=False))  # FASTA index
+
+    # QC files
+    qc_outputs = get_qc_outputs(sample)
+    outfiles.extend(qc_outputs.values())
 
     return outfiles

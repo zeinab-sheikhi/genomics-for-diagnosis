@@ -1,7 +1,7 @@
 from utils import *
 
 include: "rules/reference.smk"
-# include: "rules/qc.smk"
+include: "rules/qc.smk"
 # include: "rules/alignment.smk"
 # include: "rules/svcalling.smk"
 

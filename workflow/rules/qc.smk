@@ -1,7 +1,11 @@
 rule fastqc:
-    input: r1=r1, r2=r2
+    input: 
+        r1=get_fastq_r1(),
+        r2=get_fastq_r2()
     output:
-        R1_html = f"{RESULTS}/qc/{{sample}}_R1_wgs_chr21_fastqc.html",
-        R2_html = f"{RESULTS}/qc/{{sample}}_R2_wgs_chr21_fastqc.html"
-    conda: ENV("qc.yaml")
-    shell: "fastqc {input.r1:q} {input.r2:q} -o {RESULTS}/qc/"
+        r1_html=get_qc_outputs()["r1_html"],
+        r2_html=get_qc_outputs()["r2_html"]
+    conda: get_env("wgs.yaml")
+    shell: 
+        "mkdir -p workflow/reports/ &&"
+        "fastqc {input.r1:q} {input.r2:q} -o workflow/reports/"
