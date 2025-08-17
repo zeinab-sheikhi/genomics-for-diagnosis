@@ -28,15 +28,24 @@ if ! command -v bedtools &> /dev/null; then
 fi
 
 mkdir -p "$(dirname "$OUTPUT_FILE")"
+TMP_FILE=$(mktemp)
 
 echo "Mapping structural variants to genes..."
 
-bedtools intersect -a "$SV_BED" -b "$GENES_BED" -wa -wb > "$OUTPUT_FILE"
+bedtools intersect -a "$SV_BED" -b "$GENES_BED" -wa -wb > "$TMP_FILE"
 
 if [ $? -ne 0 ]; then
     echo "Error: bedtools intersect failed"
+    rm -f "$TMP_FILE"
     exit 1
 fi
+
+
+sort -k1,1 -k2,2n -k3,3n "$TMP_FILE" \
+| bedtools groupby -g 1-6 -c 10 -o distinct -delim ';' \
+> "$OUTPUT_FILE"
+
+rm -f "$TMP_FILE"
 
 # Report results
 overlap_count=$(wc -l < "$OUTPUT_FILE")

@@ -1,7 +1,7 @@
 rule delly_call:
     input: 
-        bam=get_alignment_outputs(check_exists=True)["sorted_bam"],
-        bai=get_alignment_outputs(check_exists=True)["bam_index"],
+        bam=get_alignment_outputs()["sorted_bam"],
+        bai=get_alignment_outputs()["bam_index"],
         ref=get_fasta(),
         fai=get_fasta_idx()
     output: 
@@ -32,7 +32,7 @@ rule vcf_to_bed:
         tbi=get_variant_outputs()["vcf_index"]
     output: get_variant_outputs()["bed"]
     conda: get_env("wgs.yaml")
-    shell: "bash workflow/scripts/vcf_to_bed.sh {input.vcf:q} {output:q}"
+    shell: "bash workflow/scripts/vcf2bed.sh {input.vcf:q} {output:q}"
 
 rule sv_gene_annotation:
     input:
@@ -41,11 +41,3 @@ rule sv_gene_annotation:
     output: get_variant_outputs()["annotated"]
     conda: get_env("wgs.yaml")
     shell: "bash workflow/scripts/annotate.sh {input.sv_bed:q} {input.genes_bed:q} {output:q}"
-
-# rule vcf_to_csv:
-#     input: 
-#         vcf=get_variant_outputs()["vcf"],
-#         tbi=get_variant_outputs()["vcf_index"]
-#     output: get_variant_outputs()["csv"]
-#     conda: get_env("wgs.yaml")
-#     shell: "bash workflow/scripts/vcf_to_csv.sh {input.vcf:q} {output:q}"
