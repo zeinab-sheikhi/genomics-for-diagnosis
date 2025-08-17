@@ -61,6 +61,6 @@ tools:
 
 # Final output configuration
 final_output:
-  filename: "structural_variants.csv"
+  filename: "HG002_structural_variants.csv"
   columns: ["CHROM", "START", "END", "SIZE", "QUAL", "FILTER", "SVTYPE"]
   results_dir: "workflow/reports/"

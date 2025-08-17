@@ -7,5 +7,5 @@ rule fastqc:
         r2_html=get_qc_outputs()["r2_html"]
     conda: get_env("wgs.yaml")
     shell: 
-        "mkdir -p workflow/reports/ &&"
+        "mkdir -p workflow/reports/ && "
         "fastqc {input.r1:q} {input.r2:q} -o workflow/reports/"
