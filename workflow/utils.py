@@ -128,11 +128,11 @@ def get_alignment_outputs(sample: str | None = None, check_exists: bool = False)
         "sorted_bam": f"workflow/data/bam/{sample}_sorted.bam", 
         "bam_index": f"workflow/data/bam/{sample}_sorted.bam.bai"
     }
-    
-    if not Path(paths["sorted_bam"]).exists():
-        raise FileNotFoundError(f"Sorted BAM file not found: {paths['sorted_bam']}")
-    if not Path(paths["bam_index"]).exists():
-        raise FileNotFoundError(f"BAM index file not found: {paths['bam_index']}")
+    if check_exists:
+        if not Path(paths["sorted_bam"]).exists():
+            raise FileNotFoundError(f"Sorted BAM file not found: {paths['sorted_bam']}")
+        if not Path(paths["bam_index"]).exists():
+            raise FileNotFoundError(f"BAM index file not found: {paths['bam_index']}")
     
     return paths
     
@@ -165,6 +165,35 @@ def get_variant_outputs(sample: str | None = None, check_exists: bool = False) -
     return paths
 
 
+def get_sv_inputs(sample: str | None = None) -> dict:
+    """Get input files needed for SV post-processing analysis."""
+    if sample is None:
+        sample = config.sample
+    
+    variant_files = get_variant_outputs(sample, check_exists=False)
+    
+    return {
+        "vcf": variant_files["vcf"],
+        "vcf_index": variant_files["vcf_index"],
+        "csv": variant_files["csv"]
+    }
+
+
+def get_analysis_outputs(sample: str | None = None, check_exists: bool = False) -> dict:
+    """Get SV output file paths."""
+    if sample is None:
+        sample = config.sample
+    
+    postproc_outdir = config.tools.postproc.outdir
+
+    paths = {
+        "genome_plot": f"{postproc_outdir}/{sample}_genome_overview.png",
+        "size_dist": f"{postproc_outdir}/{sample}_size_distribution.png",
+        "quality_plot": f"{postproc_outdir}/{sample}_quality_analysis.png",
+    }
+    return paths
+
+
 def make_all_outputs() -> list[str]:
     """Make all output paths for the workflow."""
     outfiles = []
@@ -188,5 +217,8 @@ def make_all_outputs() -> list[str]:
     # Final variant output (CSV file)
     variant_outputs = get_variant_outputs(sample, check_exists=False)
     outfiles.append(variant_outputs["csv"])
+
+    postproc_outputs = get_analysis_outputs(sample, check_exists=False)
+    outfiles.extend(postproc_outputs.values())
 
     return outfiles

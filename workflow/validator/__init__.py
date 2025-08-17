@@ -63,6 +63,11 @@ class FastQC(ToolResource):
     pass
 
 
+class PostProc(ToolResource):
+    """SV post-processing configuration."""
+    pass
+
+
 class Delly(ToolResource):
     """Delly structural variant caller configuration."""
     sv_types: List[str] = Field(
@@ -86,6 +91,7 @@ class Tools(BaseModel):
     samtools: Samtools
     fastqc: FastQC
     delly: Delly
+    postproc: PostProc
 
 
 class FinalOutput(BaseModel):

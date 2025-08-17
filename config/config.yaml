@@ -54,6 +54,10 @@ tools:
           - DUP  # duplication
           - INS  # insertion
           - INV  # inversion
+  postproc:
+    threads: 1
+    memory: 1024  
+    outdir: workflow/reports
 
 # Final output configuration
 final_output:
