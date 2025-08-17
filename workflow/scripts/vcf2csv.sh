@@ -1,5 +1,5 @@
 #!/bin/bash
-# vcf_to_csv.sh
+# vcf2csv.sh
 
 VCF_FILE="$1"
 OUTPUT_CSV="$2"

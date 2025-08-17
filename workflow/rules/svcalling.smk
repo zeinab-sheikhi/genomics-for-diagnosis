@@ -1,7 +1,7 @@
 rule delly_call:
     input: 
-        bam=get_alignment_outputs(check_exists=True)["sorted_bam"],
-        bai=get_alignment_outputs(check_exists=True)["bam_index"],
+        bam=get_alignment_outputs()["sorted_bam"],
+        bai=get_alignment_outputs()["bam_index"],
         ref=get_fasta(),
         fai=get_fasta_idx()
     output: 
@@ -32,4 +32,4 @@ rule vcf_to_csv:
         tbi=get_variant_outputs()["vcf_index"]
     output: get_variant_outputs()["csv"]
     conda: get_env("wgs.yaml")
-    shell: "bash workflow/scripts/vcf_to_csv.sh {input.vcf:q} {output:q}"
+    shell: "bash workflow/scripts/vcf2csv.sh {input.vcf:q} {output:q}"
