@@ -155,7 +155,8 @@ def get_variant_outputs(sample: str | None = None, check_exists: bool = False) -
         "vcf": f"{delly_outdir}/{sample}_svs.vcf.gz", 
         "vcf_index": f"{delly_outdir}/{sample}_svs.vcf.gz.tbi",
         "bed": f"{delly_outdir}/{sample}_svs.bed",
-        # "csv": f"workflow/reports/{sample}_structural_variants.csv" 
+        "annotated": f"{delly_outdir}/{sample}_svs_annotated.bed",
+        "csv": f"workflow/reports/{sample}_structural_variants.csv" 
     }
     
     if check_exists:
@@ -164,6 +165,23 @@ def get_variant_outputs(sample: str | None = None, check_exists: bool = False) -
                 raise FileNotFoundError(f"Variant file not found: {path}")
     
     return paths
+
+
+def get_genes_bed(check_exists: bool = False) -> str:
+    """Get genes BED file path from configuration with optional validation."""
+    genes_bed_path = Path(config.reference.bed)
+    
+    if check_exists:
+        if not genes_bed_path.exists():
+            raise FileNotFoundError(f"Genes BED file not found: {genes_bed_path}")
+        
+        if not str(genes_bed_path).endswith('.bed'):
+            raise ValueError(f"Invalid BED file extension: {genes_bed_path.suffix}")
+        
+        if genes_bed_path.stat().st_size == 0:
+            raise ValueError(f"Genes BED file is empty: {genes_bed_path}")
+    
+    return str(genes_bed_path)
 
 
 def make_all_outputs() -> list[str]:
@@ -189,5 +207,6 @@ def make_all_outputs() -> list[str]:
     # Final variant output (CSV file)
     variant_outputs = get_variant_outputs(sample, check_exists=False)
     outfiles.append(variant_outputs["bed"])
+    outfiles.append(variant_outputs["annotated"])
 
     return outfiles

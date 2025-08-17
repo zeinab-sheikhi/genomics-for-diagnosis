@@ -19,13 +19,21 @@ class FileExtensions(BaseModel):
 class Reference(BaseModel):
     """Reference genome configuration."""
     fa: str = Field(..., description="Path to reference FASTA file")
+    bed: str = Field(..., description="Path to reference BED file")
     
     @field_validator('fa')
     @classmethod
     def validate_fasta_path(cls, v):
         if not v.endswith(('.fasta', '.fa', '.fna')):
             raise ValueError('Reference file must have .fasta, .fa, or .fna extension')
-        return v
+        return v.strip()
+    
+    @field_validator('bed')
+    @classmethod
+    def validate_bed_path(cls, v):
+        if not v.endswith(('.bed')):
+            raise ValueError('Reference BED file must have .bed extension')
+        return v.strip()
 
 
 class FastqFiles(BaseModel):

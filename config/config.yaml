@@ -2,6 +2,7 @@ sample: "HG002"
 
 reference:
   fa: "workflow/data/fasta/chr21.fa"
+  bed: "workflow/data/chr21_genes.bed"
 
 fastq:
   r1: "workflow/data/HG002_R1_wgs_chr21.fastq.gz"

@@ -34,6 +34,14 @@ rule vcf_to_bed:
     conda: get_env("wgs.yaml")
     shell: "bash workflow/scripts/vcf_to_bed.sh {input.vcf:q} {output:q}"
 
+rule sv_gene_annotation:
+    input:
+        sv_bed=get_variant_outputs()["bed"],
+        genes_bed=get_genes_bed()
+    output: get_variant_outputs()["annotated"]
+    conda: get_env("wgs.yaml")
+    shell: "bash workflow/scripts/annotate.sh {input.sv_bed:q} {input.genes_bed:q} {output:q}"
+
 # rule vcf_to_csv:
 #     input: 
 #         vcf=get_variant_outputs()["vcf"],
