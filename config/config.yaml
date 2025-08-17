@@ -47,7 +47,7 @@ tools:
   delly:
     threads: 2
     memory: 8192
-    outdir: workflow/reports
+    outdir: workflow/data/delly
     sv_types:
           - BND  # translocation
           - DEL  # deletion

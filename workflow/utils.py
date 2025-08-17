@@ -128,10 +128,12 @@ def get_alignment_outputs(sample: str | None = None, check_exists: bool = False)
         "sorted_bam": f"workflow/data/bam/{sample}_sorted.bam", 
         "bam_index": f"workflow/data/bam/{sample}_sorted.bam.bai"
     }
-    if check_exists:
-        for path in paths.values():
-            if not Path(path).exists():
-                raise FileNotFoundError(f"Alignment output file not found: {path}")
+    
+    if not Path(paths["sorted_bam"]).exists():
+        raise FileNotFoundError(f"Sorted BAM file not found: {paths['sorted_bam']}")
+    if not Path(paths["bam_index"]).exists():
+        raise FileNotFoundError(f"BAM index file not found: {paths['bam_index']}")
+    
     return paths
     
 
@@ -139,6 +141,28 @@ def get_bwt() -> str:
     """Get BWA .bwt index file."""
     fasta_path = get_fasta()
     return fasta_path + ".bwt"
+
+
+def get_variant_outputs(sample: str | None = None, check_exists: bool = False) -> dict:
+    """Get structural variant calling output file paths."""
+    if sample is None:
+        sample = config.sample
+    
+    delly_outdir = config.tools.delly.outdir
+    
+    paths = {
+        "bcf": f"{delly_outdir}/{sample}_svs.bcf",
+        "vcf": f"{delly_outdir}/{sample}_svs.vcf.gz", 
+        "vcf_index": f"{delly_outdir}/{sample}_svs.vcf.gz.tbi",
+        "csv": f"workflow/reports/{sample}_structural_variants.csv" 
+    }
+    
+    if check_exists:
+        for path in paths.values():
+            if not Path(path).exists():
+                raise FileNotFoundError(f"Variant file not found: {path}")
+    
+    return paths
 
 
 def make_all_outputs() -> list[str]:
@@ -160,5 +184,9 @@ def make_all_outputs() -> list[str]:
         alignment_outputs["sorted_bam"],
         alignment_outputs["bam_index"]
     ])
+
+    # Final variant output (CSV file)
+    variant_outputs = get_variant_outputs(sample, check_exists=False)
+    outfiles.append(variant_outputs["csv"])
 
     return outfiles

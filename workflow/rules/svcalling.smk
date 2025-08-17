@@ -1,37 +1,35 @@
 rule delly_call:
     input: 
-        bam=f"{RESULTS}/alignment/{{sample}}_sorted.bam",
-        bai=f"{RESULTS}/alignment/{{sample}}_sorted.bam.bai",
-        ref=REF,
-        fai=f"{REF}.fai"
+        bam=get_alignment_outputs(check_exists=True)["sorted_bam"],
+        bai=get_alignment_outputs(check_exists=True)["bam_index"],
+        ref=get_fasta(),
+        fai=get_fasta_idx()
     output: 
-        bcf=f"{RESULTS}/variants/{{sample}}_svs.bcf"
-    conda: ENV("svcalling.yaml")
-    threads: config["threads"]["delly_call"]
-    log: f"{LOGS}/variants/{{sample}}_delly_call.log"
+        bcf=get_variant_outputs()["bcf"]
+    conda: get_env("wgs.yaml")
+    threads: config.tools.delly.threads
     shell: """
+        mkdir -p {config.tools.delly.outdir} && \
         delly call \
         -g {input.ref:q} \
         -o {output.bcf:q} \
-        {input.bam:q} 2> {log}
+        {input.bam:q}
     """
 
 rule bcf_to_vcf:
-    input: f"{RESULTS}/variants/{{sample}}_svs.bcf"
+    input: get_variant_outputs()["bcf"]
     output: 
-        vcf=f"{RESULTS}/variants/{{sample}}_svs.vcf.gz",
-        tbi=f"{RESULTS}/variants/{{sample}}_svs.vcf.gz.tbi"
-    conda: ENV("svcalling.yaml")
-    log: f"{LOGS}/variants/{{sample}}_bcf_to_vcf.log"
+        vcf=get_variant_outputs()["vcf"],
+        tbi=get_variant_outputs()["vcf_index"]
+    conda: get_env("wgs.yaml")
     shell: 
-        "bcftools convert -O z -o {output.vcf:q} {input:q} 2> {log} ; "
-        "tabix -p vcf {output.vcf:q} 2>> {log}"
+        "bcftools convert -O z -o {output.vcf:q} {input:q} && "
+        "tabix -p vcf {output.vcf:q}"
 
 rule vcf_to_csv:
     input: 
-        vcf=f"{RESULTS}/variants/{{sample}}_svs.vcf.gz",
-        tbi=f"{RESULTS}/variants/{{sample}}_svs.vcf.gz.tbi"
-    output: f"{RESULTS}/{{sample}}_structural_variants.csv"
-    conda: ENV("svcalling.yaml")
-    log: f"{LOGS}/variants/{{sample}}_vcf_to_csv.log"
-    shell: "bash workflow/scripts/vcf_to_csv.sh {input.vcf:q} {output:q} {log}"
+        vcf=get_variant_outputs()["vcf"],
+        tbi=get_variant_outputs()["vcf_index"]
+    output: get_variant_outputs()["csv"]
+    conda: get_env("wgs.yaml")
+    shell: "bash workflow/scripts/vcf_to_csv.sh {input.vcf:q} {output:q}"
