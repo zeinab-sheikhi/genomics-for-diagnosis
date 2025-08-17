@@ -42,3 +42,29 @@ bash miniconda.sh
 
 
 **Note**: The example dataset uses chromosome 21 data from sample HG002. Place your paired-end FASTQ files in the `workflow/data/` directory. Update the file paths in `config/config.yaml` if using different sample names or file locations.
+
+## Execution of the workflow
+
+**Dry run** (recommended first step to check workflow validity):
+   ```bash
+   make dry-run
+   ```
+
+**Run the complete workflow**:
+   ```bash
+   make run
+   ```
+
+**Optional visualization and reporting:**
+- Generate workflow DAG visualization:
+  ```bash
+  make generate-dag-graph
+  ```
+- Generate rule dependency graph:
+  ```bash
+  make generate-rule-graph
+  ```
+- Generate HTML report:
+  ```bash
+  make generate-report
+  ```
