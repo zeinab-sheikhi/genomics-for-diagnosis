@@ -118,6 +118,29 @@ def get_qc_outputs(sample: str | None = None) -> dict:
     }
 
 
+def get_alignment_outputs(sample: str | None = None, check_exists: bool = False) -> dict:
+    """Get alignment output file paths."""
+    if sample is None:
+        sample = config.sample
+    
+    paths = {
+        "raw_bam": f"workflow/data/bam/{sample}_raw.bam",
+        "sorted_bam": f"workflow/data/bam/{sample}_sorted.bam", 
+        "bam_index": f"workflow/data/bam/{sample}_sorted.bam.bai"
+    }
+    if check_exists:
+        for path in paths.values():
+            if not Path(path).exists():
+                raise FileNotFoundError(f"Alignment output file not found: {path}")
+    return paths
+    
+
+def get_bwt() -> str:
+    """Get BWA .bwt index file."""
+    fasta_path = get_fasta()
+    return fasta_path + ".bwt"
+
+
 def make_all_outputs() -> list[str]:
     """Make all output paths for the workflow."""
     outfiles = []
@@ -130,5 +153,12 @@ def make_all_outputs() -> list[str]:
     # QC files
     qc_outputs = get_qc_outputs(sample)
     outfiles.extend(qc_outputs.values())
+
+    # Alignment files 
+    alignment_outputs = get_alignment_outputs(sample, check_exists=False)
+    outfiles.extend([
+        alignment_outputs["sorted_bam"],
+        alignment_outputs["bam_index"]
+    ])
 
     return outfiles

@@ -1,31 +1,29 @@
 rule bwa_align:
     input:
-        r1=r1,
-        r2=r2,
-        ref=REF,
-        bwt=f"{REF}.bwt"
+        r1=get_fastq_r1(),
+        r2=get_fastq_r2(),
+        ref=get_fasta(),
+        bwt=get_bwt()
     output:
-        temp(f"{RESULTS}/alignment/{{sample}}_raw.bam")
-    conda: ENV("alignment.yaml")
-    threads: config["threads"]["bwa_align"]
-    log: f"{LOGS}/alignment/{{sample}}_bwa_align.log"
+        temp(get_alignment_outputs()["raw_bam"])
+    conda: get_env("wgs.yaml")
+    threads: config.tools.bwa.threads
     shell: """
-        bwa mem -t {threads} {input.ref:q} {input.r1:q} {input.r2:q} 2> {log} | \
-        samtools view -b -o {output:q} - 2>> {log}
+        mkdir -p workflow/data/bam && \
+        bwa mem -t {threads} {input.ref:q} {input.r1:q} {input.r2:q} | \
+        samtools view -b -o {output:q} - 
     """
 
 rule sort_bam:
-    input: f"{RESULTS}/alignment/{{sample}}_raw.bam"
-    output: f"{RESULTS}/alignment/{{sample}}_sorted.bam"
-    conda: ENV("alignment.yaml")
-    threads: config["threads"]["sort_bam"]
-    log: f"{LOGS}/alignment/{{sample}}_sort_bam.log"
-    shell: "samtools sort -@ {threads} -o {output:q} {input:q} 2> {log}"
+    input: get_alignment_outputs()["raw_bam"]
+    output: get_alignment_outputs()["sorted_bam"]
+    conda: get_env("wgs.yaml")
+    threads: config.tools.samtools.threads
+    shell: "samtools sort -@ {threads} -o {output:q} {input:q}"
 
 rule index_bam:
-    input: f"{RESULTS}/alignment/{{sample}}_sorted.bam"
-    output: f"{RESULTS}/alignment/{{sample}}_sorted.bam.bai"
-    conda: ENV("alignment.yaml")
-    threads: config["threads"]["index_bam"]
-    log: f"{LOGS}/alignment/{{sample}}_index_bam.log"
-    shell: "samtools index {input:q} {output:q} 2> {log}"
+    input: get_alignment_outputs()["sorted_bam"]
+    output: get_alignment_outputs()["bam_index"]
+    conda: get_env("wgs.yaml")
+    threads: config.tools.samtools.threads
+    shell: "samtools index {input:q} {output:q}"

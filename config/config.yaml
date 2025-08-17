@@ -39,10 +39,15 @@ tools:
     memory: 1024
     outdir: workflow/reports
 
+  alignment:
+    threads: 4
+    memory: 2048
+    outdir: workflow/data/bam
+
   delly:
     threads: 2
     memory: 8192
-    outdir: workflow/results/delly
+    outdir: workflow/reports
     sv_types:
           - BND  # translocation
           - DEL  # deletion

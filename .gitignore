@@ -1,8 +1,5 @@
 .DS_Store
 .snakemake/
 *.gz
-logs/
-workflow/results/alignment/
-workflow/results/variants/
-
 __pycache__/
+workflow/data/bam/
