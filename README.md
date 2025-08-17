@@ -68,3 +68,34 @@ bash miniconda.sh
   ```bash
   make generate-report
   ```
+
+## Workflow Overview
+
+![Workflow DAG](workflow/reports/dag.png)
+
+### Pipeline Steps
+
+The genomics pipeline consists of 5 main stages:
+
+1. **Reference Preparation** (`reference.smk`)
+   - **`bwa_index`**: Creates BWA index files for the reference genome
+   - **`samtools_faidx`**: Generates FASTA index for fast sequence access
+
+2. **Quality Control** (`qc.smk`)
+   - **`fastqc`**: Analyzes FASTQ files to assess sequencing quality and identify potential issues
+
+3. **Read Alignment** (`alignment.smk`)
+   - **`bwa_align`**: Maps paired-end reads to the reference genome using BWA-MEM
+   - **`sort_bam`**: Sorts aligned reads by genomic coordinates
+   - **`index_bam`**: Creates BAM index for efficient random access
+
+4. **Structural Variant Calling** (`svcalling.smk`)
+   - **`delly_call`**: Detects structural variants (deletions, duplications, inversions, translocations, insertions) using DELLY
+   - **`bcf_to_vcf`**: Converts BCF format to compressed VCF with index
+   - **`vcf_to_csv`**: Extracts key variant information into CSV format for clinical reporting
+
+5. **Analysis & Visualization** (`sv_analysis.smk`)
+   - **`sv_analysis`**: Generates comprehensive plots and statistics:
+     - Genome-wide overview of structural variants
+     - Size distribution analysis
+     - Quality score analysis
