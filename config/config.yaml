@@ -1,21 +1,21 @@
 sample: "HG002"
 
 reference:
-  fa: "workflow/data/fasta/chr21.fasta"
+  fa: "workflow/data/fasta/chr21.fa"
 
 fastq:
   r1: "workflow/data/HG002_R1_wgs_chr21.fastq.gz"
   r2: "workflow/data/HG002_R2_wgs_chr21.fastq.gz"
 
 file_exts:
-  fasta: .fasta
-  fasta_idx:
-    - .fasta.fai  
-    - .fasta.bwt  
-    - .fasta.amb  
-    - .fasta.ann  
-    - .fasta.pac  
-    - .fasta.sa   
+  fasta: .fa
+  bwa_idx:
+    - .bwt
+    - .amb
+    - .ann
+    - .pac
+    - .sa
+  fasta_idx: .fai  
   bam: .bam
   bam_idx: .bam.bai
   vcf: .vcf

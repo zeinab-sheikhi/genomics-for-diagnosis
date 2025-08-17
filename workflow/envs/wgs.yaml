@@ -1,0 +1,16 @@
+name: genomics-diagnosis
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  # Alignment tools
+  - bwa
+  - samtools
+  
+  # Quality control tools  
+  - fastqc
+  
+  # Structural variant calling tools
+  - delly
+  - bcftools
+  - tabix

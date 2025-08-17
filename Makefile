@@ -12,13 +12,13 @@ run:
 	@snakemake --use-conda --cores 4
 
 generate-dag-graph:
-	@snakemake --dag | dot -Tpng > workflow/results/dag.png
+	@snakemake --dag | dot -Tpng > workflow/reports/dag.png
 
 generate-rule-graph:
-	@snakemake --rulegraph | dot -Tpng > workflow/results/rulegraph.png
+	@snakemake --rulegraph | dot -Tpng > workflow/reports/rulegraph.png
 
 generate-report:
-	@snakemake --report workflow/results/report.html
+	@snakemake --report workflow/reports/report.html
 
 help:
 	@echo "setup-envs - Create all conda environments"

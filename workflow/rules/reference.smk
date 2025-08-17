@@ -1,13 +1,15 @@
 rule bwa_index:
-    input: REF
+    input: 
+        get_fasta()
     output:
-        expand("{fa}.{ext}", fa=REF, ext=["bwt", "sa", "pac", "ann", "amb"])
-    conda: ENV("alignment.yaml")
+        get_bwa_idx()
+    conda: get_env("wgs.yaml")
     shell:  "bwa index {input:q}"
 
 rule samtools_faidx:
-    input: REF
-    output: f"{REF}.fai"
-    conda: ENV("alignment.yaml")
-    log: f"{LOGS}/samtools_faidx.log"
-    shell: "samtools faidx {input:q} 2> {log}"
+    input: 
+        get_fasta()
+    output:
+        get_fasta_fai()
+    conda: get_env("wgs.yaml")
+    shell: "samtools faidx {input:q}"

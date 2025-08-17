@@ -1,4 +1,4 @@
-"""YAML validator for config.yaml file using Pydantic V2."""
+"""YAML validator for config.yaml file."""
 import yaml
 import sys
 from typing import List, Optional
@@ -8,7 +8,8 @@ from pydantic import BaseModel, Field, field_validator
 class FileExtensions(BaseModel):
     """File extensions configuration."""
     fasta: str = ".fasta"
-    fasta_idx: List[str] = [".fasta.fai", ".fasta.bwt", ".fasta.amb", ".fasta.ann", ".fasta.pac", ".fasta.sa"]
+    bwa_idx: List[str] = [".bwt", ".amb", ".ann", ".pac", ".sa"]
+    fasta_idx: str = ".fai"
     bam: str = ".bam"
     bam_idx: str = ".bam.bai"
     bcf: str = ".bcf"

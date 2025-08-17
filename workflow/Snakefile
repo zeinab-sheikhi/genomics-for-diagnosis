@@ -1,31 +1,10 @@
-configfile: "config/config.yaml"
-
-ENV = lambda name: os.path.join(workflow.basedir, "envs", name)
-REF      = config["reference"]["fa"]
-SAMPLE  = config["sample"]
-RESULTS  = config.get("results_dir", "workflow/results")
-LOGS     = "../logs"
-
-def r1(wc): return f"data/{wc.sample}_R1_wgs_chr21.fastq.gz"
-def r2(wc): return f"data/{wc.sample}_R2_wgs_chr21.fastq.gz"
+from utils import *
 
 include: "rules/reference.smk"
-include: "rules/qc.smk"
-include: "rules/alignment.smk"
-include: "rules/svcalling.smk"
+# include: "rules/qc.smk"
+# include: "rules/alignment.smk"
+# include: "rules/svcalling.smk"
 
 rule all:
     input: 
-        # Reference indexing
-        f"{REF}.bwt",
-
-        # QC
-        expand(f"{RESULTS}/qc/{{sample}}_R1_wgs_chr21_fastqc.html", sample=SAMPLE),
-        expand(f"{RESULTS}/qc/{{sample}}_R2_wgs_chr21_fastqc.html", sample=SAMPLE),
-
-        # Alignment
-        expand(f"{RESULTS}/alignment/{{sample}}_sorted.bam",       sample=SAMPLE),
-        expand(f"{RESULTS}/alignment/{{sample}}_sorted.bam.bai",   sample=SAMPLE),
-
-        # Export 
-        expand(f"{RESULTS}/{{sample}}_structural_variants.csv", sample=SAMPLE)
+        make_all_outputs()

@@ -4,3 +4,5 @@
 logs/
 workflow/results/alignment/
 workflow/results/variants/
+
+__pycache__/
