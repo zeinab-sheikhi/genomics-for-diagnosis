@@ -24,12 +24,19 @@ echo "Extracting chromosome 21 genes from $GTF_FILE..."
 zcat "$GTF_FILE" | \
 awk '$1 == "chr21" && $3 == "gene"' | \
 while IFS=$'\t' read -r chr source feature start end score strand frame attributes; do
-    gene_name=$(echo "$attributes" | sed 's/.*gene_name "\([^"]*\)".*/\1/')
+    # Extract gene_name only
+    gene_name=$(echo "$attributes" | sed -n 's/.*gene_name "\([^"]*\)".*/\1/p')
+    
+    # Skip this gene if no gene_name found (should be rare)
+    if [ -z "$gene_name" ]; then
+        echo "Warning: No gene_name found for line: $chr:$start-$end" >&2
+        continue
+    fi
+
     echo -e "$chr\t$((start-1))\t$end\t$gene_name\t0\t$strand"
 done | \
 sort -k1,1 -k2,2n > "$OUTPUT_FILE"
 
-# Report results
 gene_count=$(wc -l < "$OUTPUT_FILE")
 echo "Extracted $gene_count genes to $OUTPUT_FILE"
 echo "Done!"

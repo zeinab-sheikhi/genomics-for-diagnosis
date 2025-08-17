@@ -26,10 +26,18 @@ rule bcf_to_vcf:
         "bcftools convert -O z -o {output.vcf:q} {input:q} && "
         "tabix -p vcf {output.vcf:q}"
 
-rule vcf_to_csv:
-    input: 
+rule vcf_to_bed:
+    input:
         vcf=get_variant_outputs()["vcf"],
         tbi=get_variant_outputs()["vcf_index"]
-    output: get_variant_outputs()["csv"]
+    output: get_variant_outputs()["bed"]
     conda: get_env("wgs.yaml")
-    shell: "bash workflow/scripts/vcf_to_csv.sh {input.vcf:q} {output:q}"
+    shell: "bash workflow/scripts/vcf_to_bed.sh {input.vcf:q} {output:q}"
+
+# rule vcf_to_csv:
+#     input: 
+#         vcf=get_variant_outputs()["vcf"],
+#         tbi=get_variant_outputs()["vcf_index"]
+#     output: get_variant_outputs()["csv"]
+#     conda: get_env("wgs.yaml")
+#     shell: "bash workflow/scripts/vcf_to_csv.sh {input.vcf:q} {output:q}"

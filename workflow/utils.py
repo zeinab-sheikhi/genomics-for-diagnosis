@@ -154,7 +154,8 @@ def get_variant_outputs(sample: str | None = None, check_exists: bool = False) -
         "bcf": f"{delly_outdir}/{sample}_svs.bcf",
         "vcf": f"{delly_outdir}/{sample}_svs.vcf.gz", 
         "vcf_index": f"{delly_outdir}/{sample}_svs.vcf.gz.tbi",
-        "csv": f"workflow/reports/{sample}_structural_variants.csv" 
+        "bed": f"{delly_outdir}/{sample}_svs.bed",
+        # "csv": f"workflow/reports/{sample}_structural_variants.csv" 
     }
     
     if check_exists:
@@ -187,6 +188,6 @@ def make_all_outputs() -> list[str]:
 
     # Final variant output (CSV file)
     variant_outputs = get_variant_outputs(sample, check_exists=False)
-    outfiles.append(variant_outputs["csv"])
+    outfiles.append(variant_outputs["bed"])
 
     return outfiles
