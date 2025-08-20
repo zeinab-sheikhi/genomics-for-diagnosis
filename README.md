@@ -93,3 +93,21 @@ The genomics pipeline consists of 5 main stages:
    - **`delly_call`**: Detects structural variants (deletions, duplications, inversions, translocations, insertions) using DELLY
    - **`bcf_to_vcf`**: Converts BCF format to compressed VCF with index
    - **`vcf_to_csv`**: Extracts key variant information into CSV format for clinical reporting
+
+## Output Files
+
+The workflow generates several output files for analysis and reporting:
+
+### Final Clinical Report
+- **`workflow/reports/HG002_structural_variants.csv`** - Main clinical report containing structural variants with the following columns:
+  - `CHROM`: Chromosome location
+  - `START`: Start position (1-based coordinates)
+  - `END`: End position
+  - `SIZE`: Size of the structural variant in base pairs
+  - `QUAL`: Quality score from DELLY
+  - `FILTER`: Filter status (PASS, LowQual, etc.)
+  - `SVTYPE`: Type of structural variant (DEL, DUP, INV, INS, BND)
+
+### Quality Control Reports
+- **`workflow/reports/HG002_R1_wgs_chr21_fastqc.html`** - FastQC quality report for R1 reads
+- **`workflow/reports/HG002_R2_wgs_chr21_fastqc.html`** - FastQC quality report for R2 reads
