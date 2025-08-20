@@ -5,6 +5,9 @@ setup-envs:
 	@chmod +x install.sh
 	@./install.sh
 
+lint: 
+	@snakemake --lint
+
 dry-run:
 	@snakemake -s workflow/Snakefile --dryrun
 

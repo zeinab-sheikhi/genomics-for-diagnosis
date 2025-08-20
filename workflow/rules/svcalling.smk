@@ -7,9 +7,10 @@ rule delly_call:
     output: 
         bcf=get_variant_outputs()["bcf"]
     conda: get_env("wgs.yaml")
+    resources: 
+        mem_mb=config.tools.delly.memory,  
     threads: config.tools.delly.threads
     shell: """
-        mkdir -p {config.tools.delly.outdir} && \
         delly call \
         -g {input.ref:q} \
         -o {output.bcf:q} \
@@ -22,6 +23,9 @@ rule bcf_to_vcf:
         vcf=get_variant_outputs()["vcf"],
         tbi=get_variant_outputs()["vcf_index"]
     conda: get_env("wgs.yaml")
+    resources: 
+        mem_mb=config.tools.bcftools.memory,  
+    threads: config.tools.bcftools.threads
     shell: 
         "bcftools convert -O z -o {output.vcf:q} {input:q} && "
         "tabix -p vcf {output.vcf:q}"

@@ -54,7 +54,7 @@ tools:
           - DUP  # duplication
           - INS  # insertion
           - INV  # inversion
-  postproc:
+  bcftools:
     threads: 1
     memory: 1024  
     outdir: workflow/reports

@@ -63,8 +63,13 @@ class FastQC(ToolResource):
     pass
 
 
-class PostProc(ToolResource):
-    """SV post-processing configuration."""
+class Alignment(ToolResource):
+    """Alignment workflow configuration."""
+    pass
+
+
+class Bcftools(ToolResource):
+    """Bcftools configuration."""
     pass
 
 
@@ -91,7 +96,8 @@ class Tools(BaseModel):
     samtools: Samtools
     fastqc: FastQC
     delly: Delly
-    postproc: PostProc
+    alignment: Alignment
+    bcftools: Bcftools
 
 
 class FinalOutput(BaseModel):

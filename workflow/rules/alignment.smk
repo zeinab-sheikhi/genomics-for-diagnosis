@@ -6,10 +6,11 @@ rule bwa_align:
         bwt=get_bwt()
     output:
         temp(get_alignment_outputs()["raw_bam"])
+    resources: 
+        mem_mb=config.tools.alignment.memory,  
+    threads: config.tools.alignment.threads
     conda: get_env("wgs.yaml")
-    threads: config.tools.bwa.threads
     shell: """
-        mkdir -p workflow/data/bam && \
         bwa mem -t {threads} {input.ref:q} {input.r1:q} {input.r2:q} | \
         samtools view -b -o {output:q} - 
     """
@@ -17,6 +18,8 @@ rule bwa_align:
 rule sort_bam:
     input: get_alignment_outputs()["raw_bam"]
     output: get_alignment_outputs()["sorted_bam"]
+    resources: 
+        mem_mb=config.tools.alignment.memory,  
     conda: get_env("wgs.yaml")
     threads: config.tools.samtools.threads
     shell: "samtools sort -@ {threads} -o {output:q} {input:q}"
@@ -24,6 +27,8 @@ rule sort_bam:
 rule index_bam:
     input: get_alignment_outputs()["sorted_bam"]
     output: get_alignment_outputs()["bam_index"]
+    resources: 
+        mem_mb=config.tools.alignment.memory,  
     conda: get_env("wgs.yaml")
     threads: config.tools.samtools.threads
     shell: "samtools index {input:q} {output:q}"

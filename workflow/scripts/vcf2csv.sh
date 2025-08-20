@@ -2,6 +2,7 @@
 # vcf2csv.sh
 
 VCF_FILE="$1"
+
 OUTPUT_CSV="$2"
 
 mkdir -p "$(dirname "$OUTPUT_CSV")"
@@ -22,7 +23,7 @@ fi
 
 bcftools query -f '%CHROM\t%POS\t%INFO/END\t%INFO/SVLEN\t%QUAL\t%FILTER\t%INFO/SVTYPE\n' "$VCF_FILE" | \
 awk '
-BEGIN { OFS="," }
+BEGIN { ="," }
 {
     chrom=$1
     start=$2
