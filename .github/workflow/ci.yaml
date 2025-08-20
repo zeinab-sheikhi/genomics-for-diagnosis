@@ -1,0 +1,18 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mamba-org/setup-micromamba@v2
+        with:
+          environment-file: environment.yaml
+          activate-environment: genomics
+      - name: Lint
+        run: snakemake --lint -s workflow/Snakefile
+      - name: Dry run
+        run: snakemake -s workflow/Snakefile --dryrun
+      # Optional tiny exec if you commit a miniature chr21 FASTQ:
+      - name: Tiny run
+        run: snakemake -s workflow/Snakefile --use-conda --cores 2 -n  # or remove -n to execute

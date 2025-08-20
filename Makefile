@@ -8,6 +8,9 @@ setup-envs:
 lint: 
 	@snakemake --lint
 
+format:
+	@snakefmt workflow/
+
 dry-run:
 	@snakemake -s workflow/Snakefile --dryrun
 

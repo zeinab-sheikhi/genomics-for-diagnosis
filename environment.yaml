@@ -3,8 +3,8 @@ channels:
   - bioconda
 dependencies:
   - snakemake
-  - tabulate
   - pip
   - pip:
+      - snakefmt
       - pydantic
       - pyyaml

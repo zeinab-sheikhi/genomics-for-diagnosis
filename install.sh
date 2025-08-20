@@ -13,5 +13,3 @@ conda list
 mamba env create -n $MY_ENV -f environment.yaml
 conda activate $MY_ENV
 conda list
-
-snakemake --use-conda --conda-create-envs-only --cores 1 --snakefile workflow/Snakefile

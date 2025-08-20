@@ -23,7 +23,7 @@ fi
 
 bcftools query -f '%CHROM\t%POS\t%INFO/END\t%INFO/SVLEN\t%QUAL\t%FILTER\t%INFO/SVTYPE\n' "$VCF_FILE" | \
 awk '
-BEGIN { ="," }
+BEGIN { OFS="," }
 {
     chrom=$1
     start=$2
