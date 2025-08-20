@@ -13,6 +13,3 @@ jobs:
         run: snakemake --lint -s workflow/Snakefile
       - name: Dry run
         run: snakemake -s workflow/Snakefile --dryrun
-      # Optional tiny exec if you commit a miniature chr21 FASTQ:
-      - name: Tiny run
-        run: snakemake -s workflow/Snakefile --use-conda --cores 2 -n  # or remove -n to execute
