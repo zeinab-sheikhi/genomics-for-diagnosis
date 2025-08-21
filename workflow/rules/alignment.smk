@@ -10,7 +10,7 @@ rule bwa_align:
         mem_mb=config.tools.alignment.memory,
     threads: config.tools.alignment.threads
     conda:
-        get_env("wgs.yaml")
+        get_env("sv.yaml")
     shell:
         """
         bwa mem -t {threads} {input.ref:q} {input.r1:q} {input.r2:q} | \
@@ -26,7 +26,7 @@ rule sort_bam:
     resources:
         mem_mb=config.tools.alignment.memory,
     conda:
-        get_env("wgs.yaml")
+        get_env("sv.yaml")
     threads: config.tools.samtools.threads
     shell:
         "samtools sort -@ {threads} -o {output:q} {input:q}"
@@ -40,7 +40,7 @@ rule index_bam:
     resources:
         mem_mb=config.tools.alignment.memory,
     conda:
-        get_env("wgs.yaml")
+        get_env("sv.yaml")
     threads: config.tools.samtools.threads
     shell:
         "samtools index {input:q} {output:q}"

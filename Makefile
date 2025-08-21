@@ -1,4 +1,4 @@
-.PHONY: setup-envs dry-run run generate-dag-graph generate-rule-graph generate-report
+.PHONY: setup-envs dry-run run generate-dag-graph generate-rule-graph generate-report lint format
 
 setup-envs:
 	@echo "Setting up environments..."

@@ -1,3 +1,4 @@
+# workflow manifest for snakemake-workflow-catalog
 usage:
   software-stack-deployment:
     conda: true 

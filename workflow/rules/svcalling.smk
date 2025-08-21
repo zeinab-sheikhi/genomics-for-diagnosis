@@ -7,7 +7,7 @@ rule delly_call:
     output:
         bcf=get_variant_outputs()["bcf"],
     conda:
-        get_env("wgs.yaml")
+        get_env("sv.yaml")
     resources:
         mem_mb=config.tools.delly.memory,
     threads: config.tools.delly.threads
@@ -27,7 +27,7 @@ rule bcf_to_vcf:
         vcf=get_variant_outputs()["vcf"],
         tbi=get_variant_outputs()["vcf_index"],
     conda:
-        get_env("wgs.yaml")
+        get_env("sv.yaml")
     resources:
         mem_mb=config.tools.bcftools.memory,
     threads: config.tools.bcftools.threads
@@ -43,6 +43,6 @@ rule vcf_to_csv:
     output:
         get_variant_outputs()["csv"],
     conda:
-        get_env("wgs.yaml")
+        get_env("sv.yaml")
     shell:
         "bash workflow/scripts/vcf2csv.sh {input.vcf:q} {output:q}"

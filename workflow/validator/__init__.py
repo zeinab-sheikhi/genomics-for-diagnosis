@@ -104,7 +104,7 @@ class FinalOutput(BaseModel):
     """Final output configuration."""
     filename: str = Field(..., description="Output filename")
     columns: List[str] = Field(..., description="Output CSV columns")
-    results_dir: str = Field(default="workflow/results", description="Results directory")
+    results_dir: str = Field(default="workflow/reports", description="Reports directory")
     
     @field_validator('filename')
     @classmethod
@@ -152,7 +152,7 @@ def load_and_validate_config(config_file: str) -> GenomicsConfig:
 def main():
     """Main validation function."""
     if len(sys.argv) != 2:
-        print("Usage: python yaml_validator.py <config.yaml>")
+        print("Usage: python __init__.py <config.yaml>")
         sys.exit(1)
     
     config_file = sys.argv[1]
