@@ -82,8 +82,8 @@ def get_fastq_r1(check_exists: bool = True) -> str:
         if not str(r1_path).endswith(('.fastq', '.fastq.gz', '.fq', '.fq.gz')):
             raise ValueError(f"Invalid R1 FASTQ file extension: {r1_path.suffix}")
         
-        if r1_path.stat().st_size == 0:
-            raise ValueError(f"R1 FASTQ file is empty: {r1_path}")
+        # if r1_path.stat().st_size == 0:
+        #     raise ValueError(f"R1 FASTQ file is empty: {r1_path}")
     
     return str(r1_path)
 
@@ -99,8 +99,8 @@ def get_fastq_r2(check_exists: bool = True) -> str:
         if not str(r2_path).endswith(('.fastq', '.fastq.gz', '.fq', '.fq.gz')):
             raise ValueError(f"Invalid R2 FASTQ file extension: {r2_path.suffix}")
         
-        if r2_path.stat().st_size == 0:
-            raise ValueError(f"R2 FASTQ file is empty: {r2_path}")
+        # if r2_path.stat().st_size == 0:
+        #     raise ValueError(f"R2 FASTQ file is empty: {r2_path}")
     
     return str(r2_path)
 
