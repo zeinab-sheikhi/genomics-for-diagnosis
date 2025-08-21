@@ -13,12 +13,6 @@ jobs:
           environment-file: environment.yaml
           cache-environment: true
 
-      - name: Show versions
-        run: |
-          python --version
-          snakemake --version
-          snakefmt --version || true
-
       - name: Create placeholder input files
         run: |
           mkdir -p workflow/data/fasta
