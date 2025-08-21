@@ -1,15 +1,16 @@
 name: CI
 on: [push, pull_request]
 jobs:
-  test:
+  test-snakemake-workflow:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: mamba-org/setup-micromamba@v2
         with:
           environment-file: environment.yaml
-          activate-environment: genomics
       - name: Lint
         run: snakemake --lint -s workflow/Snakefile
+        shell: micromamba-shell {0}
       - name: Dry run
         run: snakemake -s workflow/Snakefile --dryrun
+        shell: micromamba-shell {0}
