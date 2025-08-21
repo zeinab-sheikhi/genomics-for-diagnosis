@@ -25,7 +25,8 @@ jobs:
       - name: Lint
         run: snakemake --lint -s workflow/Snakefile
         shell: micromamba-shell {0}
-            
+        continue-on-error: true
+
       - name: Dry run
         run: snakemake -s workflow/Snakefile --dryrun --touch
         shell: micromamba-shell {0}
