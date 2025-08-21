@@ -1,3 +1,4 @@
+name: genomics
 channels:
   - conda-forge
   - bioconda
