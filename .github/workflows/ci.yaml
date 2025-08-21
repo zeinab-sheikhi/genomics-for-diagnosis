@@ -8,6 +8,14 @@ jobs:
       - uses: mamba-org/setup-micromamba@v2
         with:
           environment-file: environment.yaml
+      - name: Create placeholder input files
+        run: |
+          mkdir -p workflow/data/fasta
+          mkdir -p workflow/data
+          touch workflow/data/fasta/chr21.fa
+          touch workflow/data/HG002_R1_wgs_chr21.fastq.gz
+          touch workflow/data/HG002_R2_wgs_chr21.fastq.gz
+        shell: micromamba-shell {0}
       - name: Dry run
         run: snakemake -s workflow/Snakefile --dryrun --touch
         shell: micromamba-shell {0}
